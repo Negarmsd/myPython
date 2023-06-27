@@ -15,21 +15,44 @@ def solve_cnf(cnf):
         return True, model
     else:
         return False, None
+
+def create_index(i, j, num):
+
+    # Convert integers to strings
+    i_str = str(i)
+    j_str = str(j)
+    num_str = str(num)
+
+    # Concatenate the strings
+    index_str = i_str + j_str + num_str
+
+    # Convert the concatenated string back to an integer
+    index = int(index_str)
     
+    return index
+
+#creates index row = 1, col = 3, k = 1, ...9 => index = 131, ..., 13k    
 def get_cnf(sudoku):
-    cnf = grid = [[1, 2, 3, 4, 5, 6, 7, 8, 9]  for _ in range(81)]
-    
+    cnf = []
+    for j in range(len(sudoku)) :
+        for i in range(len(sudoku[j])):
+            temp = []
+            for num in range(9):
+                temp.append(create_index(i + 1,j + 1,num + 1))
+            cnf.append(temp)
+            
+
     for j in range(len(sudoku)) :
         neg_cnf = []
         for i in range(len(sudoku[j])):
-            cell = sudoku[j][i]
 
+            cell = sudoku[j][i]
             #row
             if cell == 0:
                 continue
             if cell > 0 and cell<10:
-                cnf.append([cell])
-                neg_cnf.append(-1 * cell)
+                cnf.append([create_index(i,j,cell)])
+                neg_cnf.append(-1 * create_index(i,j,cell))
 
             #col
             for jj in range(len(sudoku)):
@@ -37,9 +60,8 @@ def get_cnf(sudoku):
             if cell == 0:
                 continue
             if cell > 0 and cell<10:
-                cnf.append([cell])
-                neg_cnf.append(-1 * cell) 
-
+                cnf.append([create_index(i,jj,cell)])
+                neg_cnf.append(-1 * create_index(i,jj,cell))
             #block ???
 
         cnf.append(neg_cnf)
