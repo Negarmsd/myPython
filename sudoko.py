@@ -18,16 +18,20 @@ def solve_cnf(cnf):
     
 def get_cnf(sudoku):
     cnf = grid = [[1, 2, 3, 4, 5, 6, 7, 8, 9]  for _ in range(81)]
-    print(cnf)
-    for j in range(sudoku) :
-        for i in range(sudoku.get(j)):
-            cell = sudoku.get(j).get(i)
+    
+    for j in range(len(sudoku)) :
+        neg_cnf = []
+        for i in range(len(sudoku[j])):
+            
+            cell = sudoku[j][i]
             if cell == 0:
                 continue
             if cell > 0 and cell<10:
-                cnf.append([-1 * cell])
-            
+                cnf.append([cell])
+                neg_cnf.append(-1 * cell)
 
+        cnf.append(neg_cnf)
+    return cnf
 
 
 sudoku = [[0, 5, 0, 3, 0, 0, 0, 6, 0],
@@ -41,6 +45,7 @@ sudoku = [[0, 5, 0, 3, 0, 0, 0, 6, 0],
           [1, 0, 0, 0, 0, 0, 0, 0, 2]]
 
 cnf = get_cnf(sudoku)
+print(cnf)
 is_sat, model = solve_cnf(cnf)
 
 if is_sat:
