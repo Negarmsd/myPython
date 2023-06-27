@@ -51,8 +51,8 @@ def get_cnf(sudoku):
             if cell == 0:
                 continue
             if cell > 0 and cell<10:
-                cnf.append([create_index(i,j,cell)])
-                neg_cnf.append(-1 * create_index(i,j,cell))
+                cnf.append([create_index(i+1,j+1,cell)])
+                neg_cnf.append(-1 * create_index(i+1,j+1,cell))
 
             #col
             for jj in range(len(sudoku)):
@@ -60,8 +60,8 @@ def get_cnf(sudoku):
             if cell == 0:
                 continue
             if cell > 0 and cell<10:
-                cnf.append([create_index(i,jj,cell)])
-                neg_cnf.append(-1 * create_index(i,jj,cell))
+                cnf.append([create_index(i + 1,jj +1 ,cell)])
+                neg_cnf.append(-1 * create_index(i + 1,jj + 1,cell))
             #block ???
 
         cnf.append(neg_cnf)
