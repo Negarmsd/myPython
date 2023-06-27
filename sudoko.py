@@ -22,13 +22,25 @@ def get_cnf(sudoku):
     for j in range(len(sudoku)) :
         neg_cnf = []
         for i in range(len(sudoku[j])):
-            
             cell = sudoku[j][i]
+
+            #row
             if cell == 0:
                 continue
             if cell > 0 and cell<10:
                 cnf.append([cell])
                 neg_cnf.append(-1 * cell)
+
+            #col
+            for jj in range(len(sudoku)):
+               cell = sudoku[jj][i]
+            if cell == 0:
+                continue
+            if cell > 0 and cell<10:
+                cnf.append([cell])
+                neg_cnf.append(-1 * cell) 
+
+            #block ???
 
         cnf.append(neg_cnf)
     return cnf
